@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Completá la oración - Inglés</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Verdana, sans-serif;
+    background: linear-gradient(135deg, #6dd5ed, #ffe27a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 560px;
+    border-radius: 24px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    padding: 28px;
+    text-align: center;
+  }
+  h1 { font-size: 22px; color: #2b2b2b; margin: 0 0 4px; }
+  .subtitle { color: #777; font-size: 14px; margin-bottom: 18px; }
+
+  /* ---------- LEVEL SCREEN ---------- */
+  .level-btn {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    margin-bottom: 14px;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    text-align: left;
+    transition: transform 0.15s ease;
+  }
+  .level-btn:hover { transform: scale(1.03); }
+  .level-btn small { display: block; font-weight: normal; font-size: 13px; opacity: 0.9; margin-top: 3px; }
+  .level-easy { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+  .level-mid { background: linear-gradient(135deg, #1e88e5, #42a5f5); }
+  .level-hard { background: linear-gradient(135deg, #d81b60, #f06292); }
+
+  /* ---------- GAME SCREEN ---------- */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .score { color: #2e8b57; }
+  .progress-wrap { width: 100%; background: #eee; border-radius: 10px; height: 10px; overflow: hidden; margin-bottom: 20px; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, #43cea2, #185a9d); width: 0%; transition: width 0.3s ease; }
+
+  .badges-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .badge { display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; }
+  .badge.simple { background: #43a047; }
+  .badge.continuo { background: #1e88e5; }
+  .badge.ropa { background: #d81b60; }
+  .badge.level { background: #555; }
+
+  .timer-wrap {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .timer-ring {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid #1e88e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: bold;
+    color: #1e88e5;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .timer-ring.warning { border-color: #f9a825; color: #f9a825; }
+  .timer-ring.danger { border-color: #e53935; color: #e53935; }
+  .timer-label { font-size: 12.5px; color: #888; }
+
+  .sentence { font-size: 21px; color: #222; line-height: 1.5; margin-bottom: 10px; font-weight: 600; }
+  .blank { display: inline-block; min-width: 90px; border-bottom: 3px solid #999; color: transparent; }
+
+  .hint-box {
+    background: #fff8e1;
+    border: 1px dashed #ffb300;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    color: #8a6100;
+    margin-bottom: 18px;
+    text-align: left;
+  }
+  .hint-box b { color: #6d4c00; }
+
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+  .opt-btn {
+    padding: 14px 8px;
+    font-size: 16px;
+    border-radius: 14px;
+    border: 2px solid #ccc;
+    background: #f7f7f7;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-weight: 600;
+    color: #333;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: #185a9d; background: #eef6ff; transform: translateY(-2px); }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { background: #c8f7c5; border-color: #2e8b57; color: #1b5e20; }
+  .opt-btn.incorrect { background: #ffd2d2; border-color: #e53935; color: #b71c1c; }
+
+  .feedback { min-height: 26px; font-size: 16px; font-weight: bold; margin: 12px 0 4px; }
+  .feedback.ok { color: #2e8b57; }
+  .feedback.bad { color: #e53935; }
+
+  .explanation {
+    display: none;
+    background: #fdecea;
+    border-left: 4px solid #e53935;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    color: #7a1f1f;
+    text-align: left;
+    margin-bottom: 14px;
+  }
+  .explanation b { color: #b71c1c; }
+
+  .next-btn, .restart-btn, .level-select-btn {
+    margin-top: 10px;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    background: #185a9d;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .next-btn:hover, .restart-btn:hover, .level-select-btn:hover { transform: scale(1.05); }
+  .next-btn:disabled { background: #bbb; cursor: not-allowed; }
+  .level-select-btn { background: #777; margin-left: 8px; }
+
+  /* ---------- FINAL SCREEN ---------- */
+  .final { display: none; }
+  .final h2 { font-size: 26px; margin-bottom: 6px; }
+  .final p { font-size: 16px; color: #555; }
+  .trophy { font-size: 60px; margin-bottom: 10px; }
+  .btn-row { display: flex; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
+
+  .glossary {
+    margin-top: 28px;
+    text-align: left;
+    background: #f4f7fb;
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+  .glossary h3 { margin: 0 0 12px; font-size: 17px; color: #185a9d; text-align: center; }
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 20px;
+  }
+  .glossary-item {
+    font-size: 14px;
+    padding: 6px 0;
+    border-bottom: 1px solid #dde5ee;
+    display: flex;
+    justify-content: space-between;
+  }
+  .glossary-item .en { font-weight: bold; color: #222; }
+  .glossary-item .es { color: #777; }
+
+  @media (max-width: 420px) {
+    .options { grid-template-columns: 1fr; }
+    .sentence { font-size: 18px; }
+    .glossary-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- LEVEL SELECT -->
+  <div id="levelScreen">
+    <h1>Completá la oración</h1>
+    <div class="subtitle">Presente simple &middot; Presente continuo &middot; Ropa y vestimenta</div>
+    <button class="level-btn level-easy" onclick="selectLevel('easy')">
+      🟢 Fácil
+      <small>Con pistas y menos opciones para elegir</small>
+    </button>
+    <button class="level-btn level-mid" onclick="selectLevel('mid')">
+      🔵 Intermedio
+      <small>Sin pistas, opciones y oraciones estándar</small>
+    </button>
+    <button class="level-btn level-hard" onclick="selectLevel('hard')">
+      🔴 Difícil
+      <small>Sin pistas, más opciones y vocabulario avanzado</small>
+    </button>
+  </div>
+
+  <!-- GAME -->
+  <div id="gameScreen" style="display:none;">
+    <div class="topbar">
+      <span>Pregunta <span id="qNumber">1</span>/<span id="qTotal">12</span></span>
+      <span class="score">Puntos: <span id="scoreVal">0</span></span>
+    </div>
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+    <div class="badges-row">
+      <div id="badge" class="badge simple">Presente simple</div>
+      <div id="levelBadge" class="badge level">Fácil</div>
+    </div>
+
+    <div class="timer-wrap" id="timerWrap">
+      <div class="timer-ring" id="timerRing">10</div>
+      <span class="timer-label">segundos</span>
+    </div>
+
+    <div class="sentence" id="sentence"></div>
+    <div class="hint-box" id="hintBox" style="display:none;"><b>Pista:</b> <span id="hintText"></span></div>
+
+    <div class="options" id="options"></div>
+
+    <div class="feedback" id="feedback"></div>
+    <div class="explanation" id="explanationBox"><b>¿Por qué?</b> <span id="explanationText"></span></div>
+    <button class="next-btn" id="nextBtn" disabled>Siguiente →</button>
+  </div>
+
+  <!-- FINAL -->
+  <div id="finalScreen" class="final">
+    <div class="trophy" id="trophyEmoji">🏆</div>
+    <h2 id="finalTitle">¡Muy bien!</h2>
+    <p id="finalScore">Puntaje: 0/12</p>
+    <div class="btn-row">
+      <button class="restart-btn" id="restartBtn">Jugar de nuevo</button>
+      <button class="level-select-btn" id="changeLevelBtn">Cambiar nivel</button>
+    </div>
+
+    <div class="glossary">
+      <h3>👕 Para seguir aprendiendo: vocabulario de ropa</h3>
+      <div class="glossary-grid" id="glossaryGrid"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ================= QUESTION BANKS ================= */
+
+const easyBank = [
+  { cat: "simple", sentence: "She ___ to school.", options: ["go", "goes"], answer: "goes",
+    hint: "Con he / she / it, el verbo lleva -s al final.",
+    why: "Con he/she/it el verbo en presente simple siempre lleva -s." },
+  { cat: "simple", sentence: "I ___ tennis.", options: ["play", "plays"], answer: "play",
+    hint: "Con I / you / we / they, el verbo NO lleva -s.",
+    why: "Con I/you/we/they el verbo va en su forma base, sin -s." },
+  { cat: "simple", sentence: "He ___ like milk.", options: ["doesn't", "don't"], answer: "doesn't",
+    hint: "Con he / she / it usamos doesn't para negar.",
+    why: "Para negar con he/she/it se usa doesn't, no don't." },
+  { cat: "simple", sentence: "___ you like dogs?", options: ["Do", "Does"], answer: "Do",
+    hint: "Con you usamos Do para preguntar.",
+    why: "You va con Do en las preguntas, Does es solo para he/she/it." },
+  { cat: "simple", sentence: "It ___ every day here.", options: ["rain", "rains"], answer: "rains",
+    hint: "It funciona como he/she: el verbo lleva -s.",
+    why: "It se conjuga igual que he/she: el verbo suma -s." },
+  { cat: "simple", sentence: "They ___ not like fish.", options: ["do", "does"], answer: "do",
+    hint: "Con they usamos do, no does.",
+    why: "They usa do para negar, does es solo para he/she/it." },
+  { cat: "continuo", sentence: "She ___ tennis now.", options: ["is playing", "plays"], answer: "is playing",
+    hint: "Ahora mismo = presente continuo: is/are + verbo-ing.",
+    why: "'Now' indica que la acción pasa en este momento: se usa presente continuo." },
+  { cat: "continuo", sentence: "I ___ my homework now.", options: ["am doing", "do"], answer: "am doing",
+    hint: "Con I usamos am + verbo-ing.",
+    why: "Con I el auxiliar del presente continuo es am, no do." },
+  { cat: "continuo", sentence: "They ___ football now.", options: ["are playing", "play"], answer: "are playing",
+    hint: "Con they usamos are + verbo-ing.",
+    why: "Con they el auxiliar del presente continuo es are." },
+  { cat: "continuo", sentence: "___ she sleeping?", options: ["Is", "Does"], answer: "Is",
+    hint: "Las preguntas en continuo empiezan con is/are/am.",
+    why: "Las preguntas en presente continuo empiezan con is/are/am, no does." },
+  { cat: "ropa", sentence: "You wear these on your feet: ___ .", options: ["shoes", "hat"], answer: "shoes",
+    hint: "Pensá en qué usamos en los pies.",
+    why: "Shoes son los zapatos, se usan en los pies." },
+  { cat: "ropa", sentence: "In winter I wear a warm ___ .", options: ["jacket", "sandals"], answer: "jacket",
+    hint: "Pensá en ropa de abrigo para el frío.",
+    why: "Jacket es una prenda de abrigo; las sandalias son para el calor." },
+];
+
+const midBank = [
+  { cat: "simple", sentence: "She ___ to school every day.", options: ["go", "goes", "going"], answer: "goes",
+    why: "He/she/it + verbo con -s en presente simple afirmativo." },
+  { cat: "simple", sentence: "They ___ tennis on Saturdays.", options: ["play", "plays", "playing"], answer: "play",
+    why: "I/you/we/they no llevan -s en el verbo." },
+  { cat: "simple", sentence: "He ___ like vegetables.", options: ["don't", "doesn't", "isn't"], answer: "doesn't",
+    why: "Negativo con he/she/it: doesn't + verbo base." },
+  { cat: "simple", sentence: "___ you like pizza?", options: ["Do", "Does", "Are"], answer: "Do",
+    why: "Pregunta con you: se usa Do, no Does ni Are." },
+  { cat: "simple", sentence: "___ she speak English?", options: ["Does", "Do", "Is"], answer: "Does",
+    why: "Pregunta con she: Does + sujeto + verbo base." },
+  { cat: "simple", sentence: "My brother ___ football every weekend.", options: ["play", "plays", "playing"], answer: "plays",
+    why: "Sujeto en tercera persona singular (brother = he): el verbo lleva -s." },
+  { cat: "simple", sentence: "We ___ watch TV at night.", options: ["don't", "doesn't", "isn't"], answer: "don't",
+    why: "Negativo con we: don't + verbo base." },
+  { cat: "simple", sentence: "It ___ every winter here.", options: ["snow", "snows", "snowing"], answer: "snows",
+    why: "It funciona como tercera persona: el verbo suma -s." },
+  { cat: "simple", sentence: "I ___ up at 7 am.", options: ["wake", "wakes", "waking"], answer: "wake",
+    why: "Con I el verbo va en forma base, sin -s." },
+  { cat: "simple", sentence: "___ he have a dog?", options: ["Does", "Do", "Is"], answer: "Does",
+    why: "Pregunta con he: Does + verbo base (have, no has)." },
+  { cat: "simple", sentence: "My parents ___ in a big house.", options: ["live", "lives", "living"], answer: "live",
+    why: "Parents es plural (equivale a they): el verbo no lleva -s." },
+  { cat: "simple", sentence: "She ___ not eat meat.", options: ["do", "does", "is"], answer: "does",
+    why: "Con she el auxiliar negativo es does (does not)." },
+  { cat: "continuo", sentence: "She ___ a book right now.", options: ["is reading", "reads", "read"], answer: "is reading",
+    why: "'Right now' indica presente continuo: is + verbo-ing." },
+  { cat: "continuo", sentence: "They ___ football at the moment.", options: ["are playing", "play", "plays"], answer: "are playing",
+    why: "Con they el auxiliar del continuo es are + verbo-ing." },
+  { cat: "continuo", sentence: "I ___ my homework now.", options: ["am doing", "do", "does"], answer: "am doing",
+    why: "Con I el auxiliar del continuo es am." },
+  { cat: "continuo", sentence: "He ___ TV at the moment.", options: ["isn't watching", "doesn't watch", "aren't watching"], answer: "isn't watching",
+    why: "Negativo continuo con he: isn't + verbo-ing." },
+  { cat: "continuo", sentence: "___ you listening to me?", options: ["Are", "Do", "Is"], answer: "Are",
+    why: "Pregunta continua con you: Are + sujeto + verbo-ing." },
+  { cat: "continuo", sentence: "___ she sleeping?", options: ["Is", "Does", "Are"], answer: "Is",
+    why: "Pregunta continua con she: Is + sujeto + verbo-ing." },
+  { cat: "continuo", sentence: "We ___ dinner right now.", options: ["are having", "have", "has"], answer: "are having",
+    why: "Con we el auxiliar del continuo es are." },
+  { cat: "continuo", sentence: "It ___ raining outside.", options: ["is", "are", "am"], answer: "is",
+    why: "Con it el auxiliar del continuo es is." },
+  { cat: "continuo", sentence: "My parents ___ not working today.", options: ["are", "is", "do"], answer: "are",
+    why: "Parents es plural: el auxiliar del continuo es are." },
+  { cat: "continuo", sentence: "___ they studying for the exam?", options: ["Are", "Do", "Is"], answer: "Are",
+    why: "Pregunta continua con they: Are + sujeto + verbo-ing." },
+  { cat: "continuo", sentence: "Look! It ___ .", options: ["is snowing", "snows", "snow"], answer: "is snowing",
+    why: "'Look!' señala algo que pasa en este momento: presente continuo." },
+  { cat: "continuo", sentence: "I ___ not sleeping, I'm just resting.", options: ["am", "is", "are"], answer: "am",
+    why: "Con I el auxiliar del continuo es am." },
+  { cat: "ropa", sentence: "You wear these on your feet: ___ .", options: ["shoes", "hat", "gloves"], answer: "shoes",
+    why: "Shoes se usan en los pies; hat y gloves van en la cabeza y las manos." },
+  { cat: "ropa", sentence: "In winter I wear a warm ___ .", options: ["jacket", "swimsuit", "sandals"], answer: "jacket",
+    why: "Jacket abriga en invierno; swimsuit y sandals son de verano." },
+  { cat: "ropa", sentence: "She is wearing a ___ and a skirt.", options: ["blouse", "boots", "belt"], answer: "blouse",
+    why: "Blouse es una prenda superior que combina con una pollera (skirt)." },
+  { cat: "ropa", sentence: "He put on his ___ before going out in the rain.", options: ["raincoat", "shorts", "tie"], answer: "raincoat",
+    why: "Raincoat protege de la lluvia." },
+  { cat: "ropa", sentence: "I wear ___ to keep my hands warm.", options: ["gloves", "socks", "a belt"], answer: "gloves",
+    why: "Gloves cubren y abrigan las manos." },
+  { cat: "ropa", sentence: "My favorite ___ is blue with white stripes.", options: ["shirt", "necklace", "perfume"], answer: "shirt",
+    why: "Shirt es una prenda con rayas; necklace y perfume no son ropa." },
+  { cat: "ropa", sentence: "She wears a ___ around her neck when it's cold.", options: ["scarf", "belt", "watch"], answer: "scarf",
+    why: "Scarf (bufanda) se usa alrededor del cuello para abrigar." },
+  { cat: "ropa", sentence: "Before sleeping, I put on my ___ .", options: ["pajamas", "jeans", "blazer"], answer: "pajamas",
+    why: "Pajamas es la ropa que se usa para dormir." },
+  { cat: "ropa", sentence: "He is wearing ___ and a tie for the interview.", options: ["a suit", "shorts", "a swimsuit"], answer: "a suit",
+    why: "A suit es el conjunto formal típico para una entrevista." },
+  { cat: "ropa", sentence: "In summer, I like wearing ___ and sandals.", options: ["shorts", "gloves", "a coat"], answer: "shorts",
+    why: "Shorts es ropa de verano, igual que las sandalias." },
+  { cat: "ropa", sentence: "She always wears a ___ on her wrist.", options: ["watch", "hat", "backpack"], answer: "watch",
+    why: "Watch (reloj) se usa en la muñeca." },
+  { cat: "ropa", sentence: "Put on your ___ , it's cold outside!", options: ["coat", "swimsuit", "sandals"], answer: "coat",
+    why: "Coat es un abrigo largo para el frío." },
+];
+
+const hardBank = [
+  { cat: "simple", sentence: "He ___ his homework before dinner every day.", options: ["does", "do", "is doing", "doing"], answer: "does",
+    why: "Acá 'does' es el verbo principal (hacer), no el auxiliar de pregunta." },
+  { cat: "simple", sentence: "She ___ cartoons every morning.", options: ["watchs", "watches", "watching", "watch"], answer: "watches",
+    why: "Los verbos terminados en -ch suman -es: watch → watches." },
+  { cat: "simple", sentence: "He ___ hard, but he never wins.", options: ["trys", "tries", "trying", "try"], answer: "tries",
+    why: "Verbos terminados en consonante + y cambian la y por -ies: try → tries." },
+  { cat: "simple", sentence: "The bus ___ to the city center twice a day.", options: ["go", "goes", "going", "gone"], answer: "goes",
+    why: "Verbos terminados en -o suman -es: go → goes." },
+  { cat: "simple", sentence: "___ your sister carry her books to school?", options: ["Do", "Does", "Is", "Are"], answer: "Does",
+    why: "Sister es tercera persona singular: la pregunta usa Does." },
+  { cat: "simple", sentence: "We ___ our grandparents on Sundays, but not always.", options: ["visits", "visit", "visiting", "is visiting"], answer: "visit",
+    why: "Con we el verbo va en forma base, sin -s." },
+  { cat: "continuo", sentence: "___ you still waiting for the bus?", options: ["Do", "Are", "Is", "Does"], answer: "Are",
+    why: "Pregunta en continuo con you: Are + sujeto + verbo-ing." },
+  { cat: "continuo", sentence: "They ___ right now, they're having lunch.", options: ["don't study", "aren't studying", "isn't studying", "doesn't study"], answer: "aren't studying",
+    why: "Negativo continuo con they: aren't + verbo-ing." },
+  { cat: "continuo", sentence: "Why ___ he crying?", options: ["is", "does", "do", "are"], answer: "is",
+    why: "Pregunta en continuo con he: is + sujeto + verbo-ing." },
+  { cat: "continuo", sentence: "I ___ an email while I listen to music.", options: ["write", "am writing", "writes", "is writing"], answer: "am writing",
+    why: "Acción en curso con I: am + verbo-ing." },
+  { cat: "continuo", sentence: "She usually wears jeans, but today she ___ a dress.", options: ["wears", "is wearing", "wear", "wearing"], answer: "is wearing",
+    why: "'Today' marca una excepción puntual: se usa presente continuo, no el hábito de siempre." },
+  { cat: "continuo", sentence: "___ it still raining outside?", options: ["Is", "Does", "Do", "Are"], answer: "Is",
+    why: "Pregunta en continuo con it: Is + sujeto + verbo-ing." },
+  { cat: "ropa", sentence: "She put on her ___ before going to bed.", options: ["robe", "blazer", "apron", "vest"], answer: "robe",
+    why: "Robe es la bata que se usa antes de dormir o al salir de bañarse." },
+  { cat: "ropa", sentence: "He wore a ___ over his shirt for the business meeting.", options: ["blazer", "apron", "romper", "mittens"], answer: "blazer",
+    why: "Blazer es un saco formal que se usa sobre la camisa." },
+  { cat: "ropa", sentence: "In the snow, she wore thick ___ to keep her hands warm.", options: ["mittens", "flip-flops", "loafers", "apron"], answer: "mittens",
+    why: "Mittens son manoplas que abrigan las manos en la nieve." },
+  { cat: "ropa", sentence: "The chef put on an ___ before cooking.", options: ["apron", "jumpsuit", "turtleneck", "vest"], answer: "apron",
+    why: "Apron es el delantal que usan los cocineros para protegerse." },
+  { cat: "ropa", sentence: "On the beach, he wore comfortable ___ .", options: ["flip-flops", "loafers", "boots", "blazer"], answer: "flip-flops",
+    why: "Flip-flops son las ojotas típicas de playa." },
+  { cat: "ropa", sentence: "In autumn she likes wearing a cozy ___ over her shirt.", options: ["cardigan", "swimsuit", "romper", "apron"], answer: "cardigan",
+    why: "Cardigan es un saco tejido liviano, ideal para el otoño." },
+];
+
+/* ================= CLOTHING GLOSSARY ================= */
+const glossary = [
+  { en: "T-shirt", es: "Remera" },
+  { en: "Jeans", es: "Pantalón de jean" },
+  { en: "Sweater", es: "Suéter / pulóver" },
+  { en: "Hoodie", es: "Buzo con capucha" },
+  { en: "Jacket", es: "Campera" },
+  { en: "Coat", es: "Abrigo / tapado" },
+  { en: "Raincoat", es: "Piloto / impermeable" },
+  { en: "Scarf", es: "Bufanda" },
+  { en: "Gloves", es: "Guantes" },
+  { en: "Hat", es: "Gorro / sombrero" },
+  { en: "Cap", es: "Gorra" },
+  { en: "Boots", es: "Botas" },
+  { en: "Sneakers", es: "Zapatillas" },
+  { en: "Sandals", es: "Sandalias" },
+  { en: "Shorts", es: "Shorts" },
+  { en: "Skirt", es: "Pollera" },
+  { en: "Dress", es: "Vestido" },
+  { en: "Blouse", es: "Blusa" },
+  { en: "Suit", es: "Traje" },
+  { en: "Tie", es: "Corbata" },
+  { en: "Belt", es: "Cinturón" },
+  { en: "Socks", es: "Medias" },
+  { en: "Pajamas", es: "Pijama" },
+  { en: "Swimsuit", es: "Traje de baño" },
+  { en: "Cardigan", es: "Saco tejido" },
+  { en: "Blazer", es: "Blazer / saco" },
+  { en: "Mittens", es: "Manoplas" },
+  { en: "Robe", es: "Bata" },
+  { en: "Apron", es: "Delantal" },
+  { en: "Flip-flops", es: "Ojotas" },
+];
+
+const catLabels = { simple: "Presente simple", continuo: "Presente continuo", ropa: "Ropa y vestimenta" };
+const levelLabels = { easy: "Fácil", mid: "Intermedio", hard: "Difícil" };
+const levelBanks = { easy: easyBank, mid: midBank, hard: hardBank };
+
+let quiz = [];
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+let currentLevel = "mid";
+let timerInterval = null;
+let timeLeft = 10;
+const TIME_LIMIT = 10;
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function selectLevel(level) {
+  currentLevel = level;
+  startGame();
+}
+
+function startGame() {
+  clearInterval(timerInterval);
+  const bank = levelBanks[currentLevel];
+  const numQuestions = bank.length;
+  quiz = shuffle(bank).map(q => ({ ...q, shuffledOptions: shuffle(q.options) }));
+  currentIndex = 0;
+  score = 0;
+
+  document.getElementById("levelScreen").style.display = "none";
+  document.getElementById("finalScreen").style.display = "none";
+  document.getElementById("gameScreen").style.display = "block";
+  document.getElementById("qTotal").textContent = numQuestions;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = quiz[currentIndex];
+  const numQuestions = quiz.length;
+
+  document.getElementById("qNumber").textContent = currentIndex + 1;
+  document.getElementById("scoreVal").textContent = score;
+  document.getElementById("progressBar").style.width = (currentIndex / numQuestions * 100) + "%";
+
+  const badge = document.getElementById("badge");
+  badge.textContent = catLabels[q.cat];
+  badge.className = "badge " + q.cat;
+
+  document.getElementById("levelBadge").textContent = levelLabels[currentLevel];
+
+  document.getElementById("sentence").innerHTML = q.sentence.replace("___", "<span class='blank'>______</span>");
+
+  const hintBox = document.getElementById("hintBox");
+  if (currentLevel === "easy" && q.hint) {
+    hintBox.style.display = "block";
+    document.getElementById("hintText").textContent = q.hint;
+  } else {
+    hintBox.style.display = "none";
+  }
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+  q.shuffledOptions.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "opt-btn";
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(opt, btn);
+    optionsDiv.appendChild(btn);
+  });
+
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("feedback").className = "feedback";
+  document.getElementById("explanationBox").style.display = "none";
+  document.getElementById("nextBtn").disabled = true;
+
+  if (currentLevel === "mid") {
+    document.getElementById("timerWrap").style.display = "flex";
+    startTimer();
+  } else {
+    document.getElementById("timerWrap").style.display = "none";
+    clearInterval(timerInterval);
+  }
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = TIME_LIMIT;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      handleTimeout();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const ring = document.getElementById("timerRing");
+  ring.textContent = timeLeft;
+  ring.classList.remove("warning", "danger");
+  if (timeLeft <= 3) ring.classList.add("danger");
+  else if (timeLeft <= 6) ring.classList.add("warning");
+}
+
+function handleTimeout() {
+  if (answered) return;
+  answered = true;
+  const q = quiz[currentIndex];
+  const numQuestions = quiz.length;
+  const buttons = document.querySelectorAll(".opt-btn");
+  const feedback = document.getElementById("feedback");
+
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (b.textContent === q.answer) b.classList.add("correct");
+  });
+
+  feedback.textContent = "¡Se acabó el tiempo! ⏰ La respuesta era: " + q.answer;
+  feedback.className = "feedback bad";
+  if (q.why) {
+    document.getElementById("explanationText").textContent = q.why;
+    document.getElementById("explanationBox").style.display = "block";
+  }
+
+  document.getElementById("progressBar").style.width = ((currentIndex + 1) / numQuestions * 100) + "%";
+  document.getElementById("nextBtn").disabled = false;
+}
+
+function selectAnswer(chosen, btnEl) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerInterval);
+  const q = quiz[currentIndex];
+  const numQuestions = quiz.length;
+  const buttons = document.querySelectorAll(".opt-btn");
+  const feedback = document.getElementById("feedback");
+
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (b.textContent === q.answer) b.classList.add("correct");
+  });
+
+  if (chosen === q.answer) {
+    score++;
+    feedback.textContent = "¡Correcto! 🎉";
+    feedback.className = "feedback ok";
+  } else {
+    btnEl.classList.add("incorrect");
+    feedback.textContent = "Casi... la respuesta era: " + q.answer;
+    feedback.className = "feedback bad";
+    if (q.why) {
+      document.getElementById("explanationText").textContent = q.why;
+      document.getElementById("explanationBox").style.display = "block";
+    }
+  }
+
+  document.getElementById("scoreVal").textContent = score;
+  document.getElementById("progressBar").style.width = ((currentIndex + 1) / numQuestions * 100) + "%";
+  document.getElementById("nextBtn").disabled = false;
+}
+
+function nextQuestion() {
+  currentIndex++;
+  if (currentIndex >= quiz.length) {
+    showFinal();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showFinal() {
+  document.getElementById("gameScreen").style.display = "none";
+  const finalScreen = document.getElementById("finalScreen");
+  finalScreen.style.display = "block";
+
+  const numQuestions = quiz.length;
+  const pct = score / numQuestions;
+  let title, trophy;
+  if (pct === 1) { title = "¡Perfecto, sos una crack!"; trophy = "🏆"; }
+  else if (pct >= 0.7) { title = "¡Muy bien hecho!"; trophy = "🌟"; }
+  else if (pct >= 0.5) { title = "¡Bien! Seguí practicando."; trophy = "👍"; }
+  else { title = "¡Vamos de nuevo, vos podés!"; trophy = "💪"; }
+
+  document.getElementById("trophyEmoji").textContent = trophy;
+  document.getElementById("finalTitle").textContent = title;
+  document.getElementById("finalScore").textContent = "Puntaje: " + score + "/" + numQuestions + "  (" + levelLabels[currentLevel] + ")";
+
+  renderGlossary();
+}
+
+function renderGlossary() {
+  const grid = document.getElementById("glossaryGrid");
+  grid.innerHTML = "";
+  glossary.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "glossary-item";
+    div.innerHTML = "<span class='en'>" + item.en + "</span><span class='es'>" + item.es + "</span>";
+    grid.appendChild(div);
+  });
+}
+
+document.getElementById("nextBtn").addEventListener("click", nextQuestion);
+document.getElementById("restartBtn").addEventListener("click", startGame);
+document.getElementById("changeLevelBtn").addEventListener("click", () => {
+  document.getElementById("finalScreen").style.display = "none";
+  document.getElementById("levelScreen").style.display = "block";
+});
+</script>
+</body>
+</html>
