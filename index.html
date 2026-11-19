@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Completá la oración - Inglés</title>
+<title>Recuperatorio de inglés - Pasado simple</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -271,10 +271,98 @@
   .glossary-item .en { font-weight: bold; color: #222; }
   .glossary-item .es { color: #777; }
 
+
+  /* ---------- MENU NUEVO ---------- */
+  .mode-toggle { display: flex; gap: 8px; margin-bottom: 6px; }
+  .mode-btn { flex: 1; padding: 11px 6px; border-radius: 12px; border: 2px solid #ccc; background: #f7f7f7; font-weight: 700; font-size: 14px; cursor: pointer; color: #555; font-family: inherit; }
+  .mode-btn.active { border-color: #8e24aa; background: #f3e5f5; color: #6a1b9a; }
+  .mode-note { font-size: 12.5px; color: #888; margin-bottom: 16px; min-height: 16px; }
+  .section-title { font-size: 12.5px; font-weight: 700; color: #888; text-align: left; margin: 6px 0 8px; text-transform: uppercase; letter-spacing: .5px; }
+  .part-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .part-btn { padding: 12px 12px; border: none; border-radius: 14px; color: #fff; font-weight: 700; font-size: 14.5px; text-align: left; cursor: pointer; background: linear-gradient(135deg, #8e24aa, #ba68c8); font-family: inherit; transition: transform .15s ease; }
+  .part-btn:hover { transform: scale(1.03); }
+  .part-btn small { display: block; font-weight: normal; font-size: 12px; opacity: .92; margin-top: 2px; }
+  .level-guide { background: linear-gradient(135deg, #00897b, #4db6ac); }
+  details.more { text-align: left; margin-top: 4px; }
+  details.more summary { cursor: pointer; font-weight: 700; color: #666; padding: 10px 0; font-size: 14px; }
+  .exit-btn { border: none; background: #eee; color: #555; border-radius: 14px; padding: 4px 12px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; }
+
+  .write-wrap { display: none; margin-bottom: 10px; }
+  .write-wrap input { width: 100%; padding: 14px; font-size: 19px; border: 2px solid #ccc; border-radius: 14px; text-align: center; margin-bottom: 12px; font-family: inherit; color: #222; }
+  .write-wrap input:focus { outline: none; border-color: #185a9d; }
+  .write-wrap input.correct { border-color: #2e8b57; background: #e8f8e8; }
+  .write-wrap input.incorrect { border-color: #e53935; background: #ffeaea; }
+  .write-tip { font-size: 12.5px; color: #888; margin-top: 10px; }
+
+  .extra-btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 4px 0 8px; }
+  .pdf-btn { padding: 11px 20px; font-size: 14.5px; font-weight: bold; border: none; border-radius: 30px; background: #00897b; color: #fff; cursor: pointer; font-family: inherit; }
+  .pdf-btn.alt { background: #ef6c00; }
+  .back-btn { padding: 11px 20px; font-size: 14.5px; font-weight: bold; border: none; border-radius: 30px; background: #777; color: #fff; cursor: pointer; font-family: inherit; }
+
+  /* ---------- GUIA DE ESTUDIO ---------- */
+  .guide { text-align: left; }
+  .guide h1 { font-size: 23px; text-align: center; margin: 0 0 4px; }
+  .guide .g-sub { text-align: center; color: #666; font-size: 14px; margin-bottom: 14px; line-height: 1.4; }
+  .guide h2 { font-size: 17px; margin: 22px 0 8px; color: #185a9d; border-bottom: 2px solid #e3f2fd; padding-bottom: 4px; break-after: avoid; }
+  .guide p { font-size: 14px; line-height: 1.5; margin: 6px 0; color: #333; }
+  .g-three { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 8px 0; }
+  .g-box { border-radius: 12px; padding: 10px 14px; font-size: 14px; line-height: 1.55; color: #333; break-inside: avoid; }
+  .g-box .t { display: block; font-size: 15px; font-weight: 800; margin-bottom: 3px; }
+  .g-plus { background: #e8f5e9; border-left: 5px solid #43a047; }
+  .g-minus { background: #ffebee; border-left: 5px solid #e53935; }
+  .g-q { background: #e3f2fd; border-left: 5px solid #1e88e5; }
+  .g-gold { background: #fff8e1; border-left: 5px solid #ffb300; margin: 8px 0; }
+  .g-box .f { background: #fff; border-radius: 6px; padding: 1px 7px; font-weight: 700; display: inline-block; margin: 2px 0; }
+  table.g-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 6px 0; }
+  .g-table th { background: #185a9d; color: #fff; text-align: left; padding: 6px 8px; font-size: 13px; }
+  .g-table th.g-part { background: #8e24aa; }
+  .g-table td { padding: 6px 8px; border-bottom: 1px solid #e0e6ee; vertical-align: top; line-height: 1.45; }
+  .g-table tr { break-inside: avoid; }
+  .g-table small { display: block; color: #777; font-size: 12px; margin-top: 2px; }
+  .g-verbs { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 16px; font-size: 13.5px; margin: 6px 0; }
+  .g-verbs div { display: flex; justify-content: space-between; border-bottom: 1px solid #e0e6ee; padding: 3px 0; }
+  .g-verbs .p { color: #ef6c00; font-weight: 700; }
+  .g-bad { color: #c62828; text-decoration: line-through; }
+  .g-good { color: #2e7d32; font-weight: 700; }
+  .g-check { padding: 0; margin: 6px 0; }
+  .g-check li { list-style: none; margin: 5px 0; font-size: 14px; line-height: 1.45; color: #333; }
+
+  /* ---------- CORRECCION (se ve solo al imprimir) ---------- */
+  #reportScreen { display: none; text-align: left; }
+  .rp-head { border-bottom: 3px solid #8e24aa; padding-bottom: 8px; margin-bottom: 12px; }
+  .rp-head h1 { font-size: 22px; margin: 0 0 4px; text-align: left; }
+  .rp-meta { color: #666; font-size: 13px; }
+  .rp-score { font-size: 18px; font-weight: 800; color: #6a1b9a; margin-top: 4px; }
+  #reportScreen h2 { font-size: 16px; color: #185a9d; margin: 16px 0 8px; }
+  .rp-item { border: 1px solid #dde5ee; border-left-width: 5px; border-radius: 8px; padding: 7px 12px; margin-bottom: 8px; font-size: 13.5px; line-height: 1.45; break-inside: avoid; }
+  .rp-item.ok { border-left-color: #43a047; background: #f4fbf4; }
+  .rp-item.bad { border-left-color: #e53935; background: #fff5f5; }
+  .rp-top { font-weight: 700; color: #444; font-size: 12.5px; }
+  .rp-sent { font-size: 15px; font-weight: 700; margin: 2px 0; color: #222; }
+  .rp-why { color: #7a1f1f; font-size: 13px; margin-top: 2px; }
+  .rp-item .mine.bad { color: #c62828; }
+  .rp-item .right { color: #2e7d32; }
+
+  @page { size: A4; margin: 13mm; }
+  @media print {
+    body { background: #fff !important; display: block; padding: 0; min-height: 0; }
+    .card { box-shadow: none; max-width: none; padding: 0; border-radius: 0; }
+    .no-print { display: none !important; }
+    #levelScreen, #gameScreen, #finalScreen, #guideScreen, #reportScreen { display: none !important; }
+    body[data-print="guide"] #guideScreen { display: block !important; }
+    body[data-print="report"] #reportScreen { display: block !important; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .g-three { grid-template-columns: 1fr 1fr 1fr; }
+    .g-verbs { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .guide h1 { font-size: 24px; }
+  }
+
   @media (max-width: 420px) {
     .options { grid-template-columns: 1fr; }
     .sentence { font-size: 18px; }
     .glossary-grid { grid-template-columns: 1fr; }
+    .part-btn { font-size: 13.5px; padding: 11px 9px; }
+    .mode-btn { font-size: 13px; }
   }
 </style>
 </head>
@@ -282,26 +370,51 @@
 
 <div class="card">
 
-  <!-- LEVEL SELECT -->
+  <!-- MENU -->
   <div id="levelScreen">
-    <h1>Completá la oración</h1>
-    <div class="subtitle">Presente simple &middot; Presente continuo &middot; Pasado simple &middot; Ropa y vestimenta</div>
-    <button class="level-btn level-easy" onclick="selectLevel('easy')">
-      🟢 Fácil
-      <small>Con pistas y menos opciones para elegir</small>
+    <h1>📝 Recuperatorio de inglés</h1>
+    <div class="subtitle">Pasado simple &middot; las 4 partes de la prueba (Grammar Check)</div>
+
+    <div class="section-title">¿Cómo querés responder?</div>
+    <div class="mode-toggle">
+      <button type="button" class="mode-btn active" id="modeChoose" onclick="setAnswerMode('choose')">👆 Elegir</button>
+      <button type="button" class="mode-btn" id="modeWrite" onclick="setAnswerMode('write')">✍️ Escribir</button>
+    </div>
+    <div class="mode-note" id="modeNote"></div>
+
+    <button class="level-btn level-rec" onclick="startExam(0)">
+      🎯 Simulacro de la prueba
+      <small>Las 4 partes mezcladas, como en el examen (31 preguntas)</small>
     </button>
-    <button class="level-btn level-mid" onclick="selectLevel('mid')">
-      🔵 Intermedio
-      <small>Sin pistas, opciones y oraciones estándar</small>
+
+    <div class="section-title">Practicar una parte</div>
+    <div class="part-grid">
+      <button class="part-btn" onclick="startExam(1)">Parte 1<small>Pasado de los verbos</small></button>
+      <button class="part-btn" onclick="startExam(2)">Parte 2<small>Completar el texto</small></button>
+      <button class="part-btn" onclick="startExam(3)">Parte 3<small>Pasar a negativo</small></button>
+      <button class="part-btn" onclick="startExam(4)">Parte 4<small>Ordenar la pregunta</small></button>
+    </div>
+
+    <button class="level-btn level-guide" onclick="showGuide()">
+      📖 Guía de estudio
+      <small>Repaso general de todo + tu prueba corregida · se baja en PDF</small>
     </button>
-    <button class="level-btn level-hard" onclick="selectLevel('hard')">
-      🔴 Difícil
-      <small>Sin pistas, más opciones y vocabulario avanzado</small>
-    </button>
-    <button class="level-btn level-rec" onclick="selectLevel('rec')">
-      📝 Recuperatorio: Pasado simple
-      <small>Práctica con el formato de la prueba: 4 partes y explicación cuando te equivocás</small>
-    </button>
+
+    <details class="more">
+      <summary>➕ Más práctica (presente simple, continuo y ropa)</summary>
+      <button class="level-btn level-easy" onclick="selectLevel('easy')">
+        🟢 Fácil
+        <small>Con pistas y menos opciones para elegir</small>
+      </button>
+      <button class="level-btn level-mid" onclick="selectLevel('mid')">
+        🔵 Intermedio
+        <small>Sin pistas · 10 segundos por pregunta</small>
+      </button>
+      <button class="level-btn level-hard" onclick="selectLevel('hard')">
+        🔴 Difícil
+        <small>Sin pistas, más opciones y vocabulario avanzado</small>
+      </button>
+    </details>
   </div>
 
   <!-- GAME -->
@@ -309,6 +422,7 @@
     <div class="topbar">
       <span>Pregunta <span id="qNumber">1</span>/<span id="qTotal">12</span></span>
       <span class="score">Puntos: <span id="scoreVal">0</span></span>
+      <button class="exit-btn" id="exitBtn" type="button">✕ Menú</button>
     </div>
     <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
 
@@ -327,6 +441,12 @@
     <div class="hint-box" id="hintBox" style="display:none;"><b>Pista:</b> <span id="hintText"></span></div>
 
     <div class="options" id="options"></div>
+
+    <div class="write-wrap" id="writeWrap">
+      <input type="text" id="writeInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Escribí tu respuesta...">
+      <button class="check-btn" id="writeCheckBtn" type="button">Verificar</button>
+      <div class="write-tip" id="writeTip"></div>
+    </div>
 
     <div class="order-wrap" id="orderWrap">
       <div class="order-answer" id="orderAnswer"></div>
@@ -349,7 +469,11 @@
     <p id="finalScore">Puntaje: 0/12</p>
     <div class="btn-row">
       <button class="restart-btn" id="restartBtn">Jugar de nuevo</button>
-      <button class="level-select-btn" id="changeLevelBtn">Cambiar nivel</button>
+      <button class="level-select-btn" id="changeLevelBtn">Menú</button>
+    </div>
+    <div class="extra-btns">
+      <button class="pdf-btn" id="reportBtn" type="button">📄 Descargar corrección (PDF)</button>
+      <button class="pdf-btn alt" id="guideBtn" type="button">📖 Guía de estudio</button>
     </div>
 
     <div class="breakdown" id="breakdown"></div>
@@ -376,11 +500,23 @@
       <div class="glossary-grid" id="verbsRegular"></div>
     </div>
 
-    <div class="glossary">
+    <div class="glossary" id="clothesBox">
       <h3>👕 Para seguir aprendiendo: vocabulario de ropa</h3>
       <div class="glossary-grid" id="glossaryGrid"></div>
     </div>
   </div>
+
+  <!-- GUIA DE ESTUDIO -->
+  <div id="guideScreen" class="guide" style="display:none;">
+    <div class="btn-row no-print" style="gap:8px;margin-bottom:12px;">
+      <button class="back-btn" type="button" id="guideBack">⬅ Volver</button>
+      <button class="pdf-btn" type="button" id="guidePrint" style="margin-left:8px;">📄 Descargar guía (PDF)</button>
+    </div>
+    <div id="guideContent"></div>
+  </div>
+
+  <!-- CORRECCION (solo para imprimir) -->
+  <div id="reportScreen"></div>
 
 </div>
 
@@ -685,6 +821,30 @@ const recBank = [
     why: "Go es irregular: go → went." },
   { part: 1, cat: "pasado", sentence: "eat → ___", options: ["ate", "eated", "eaten"], answer: "ate",
     why: "Eat es irregular: eat → ate." },
+  { part: 1, cat: "pasado", sentence: "wear → ___", options: ["wore", "weared", "worn"], answer: "wore",
+    why: "Wear es irregular: wear → wore." },
+  { part: 1, cat: "pasado", sentence: "buy → ___", options: ["bought", "buyed", "boughted"], answer: "bought",
+    why: "Buy es irregular: buy → bought." },
+  { part: 1, cat: "pasado", sentence: "drink → ___", options: ["drank", "drinked", "drunk"], answer: "drank",
+    why: "Drink es irregular: drink → drank. (Drunk es el participio, no el pasado simple.)" },
+  { part: 1, cat: "pasado", sentence: "sleep → ___", options: ["slept", "sleeped", "slep"], answer: "slept",
+    why: "Sleep es irregular: sleep → slept." },
+  { part: 1, cat: "pasado", sentence: "meet → ___", options: ["met", "meeted", "meet"], answer: "met",
+    why: "Meet es irregular: meet → met." },
+  { part: 1, cat: "pasado", sentence: "drive → ___", options: ["drove", "drived", "driven"], answer: "drove",
+    why: "Drive es irregular: drive → drove." },
+  { part: 1, cat: "pasado", sentence: "see → ___", options: ["saw", "seed", "seen"], answer: "saw",
+    why: "See es irregular: see → saw. (Seen es el participio.)" },
+  { part: 1, cat: "pasado", sentence: "make → ___", options: ["made", "maked", "make"], answer: "made",
+    why: "Make es irregular: make → made." },
+  { part: 1, cat: "pasado", sentence: "write → ___", options: ["wrote", "writed", "written"], answer: "wrote",
+    why: "Write es irregular: write → wrote. (Written es el participio.)" },
+  { part: 1, cat: "pasado", sentence: "study → ___", options: ["studied", "studyed", "studed"], answer: "studied",
+    why: "Consonante + y: la y cambia a -ied → studied." },
+  { part: 1, cat: "pasado", sentence: "dance → ___", options: ["danced", "danceed", "dancd"], answer: "danced",
+    why: "Dance termina en -e, solo se suma -d → danced." },
+  { part: 1, cat: "pasado", sentence: "arrive → ___", options: ["arrived", "arriveed", "arrivd"], answer: "arrived",
+    why: "Arrive termina en -e, solo se suma -d → arrived." },
 
   // ---------- PARTE 2: completar el texto ----------
   { part: 2, cat: "pasado", core: true, sentence: "My mum and dad ___ (shout) really loud to support our team.", options: ["shouted", "shoutted", "shout"], answer: "shouted",
@@ -709,6 +869,22 @@ const recBank = [
     why: "Go es irregular: go → went." },
   { part: 2, cat: "pasado", sentence: "She ___ (wear) her new red dress to the party.", options: ["wore", "weared", "worn"], answer: "wore",
     why: "Wear es irregular: wear → wore." },
+  { part: 2, cat: "pasado", sentence: "We ___ (watch) a funny film last night.", options: ["watched", "watchted", "watch"], answer: "watched",
+    why: "Verbo regular: se suma -ed → watched." },
+  { part: 2, cat: "pasado", sentence: "She ___ (eat) pizza for dinner yesterday.", options: ["ate", "eated", "eaten"], answer: "ate",
+    why: "Eat es irregular: eat → ate." },
+  { part: 2, cat: "pasado", sentence: "They ___ (arrive) at the stadium at six o'clock.", options: ["arrived", "arriveed", "arrive"], answer: "arrived",
+    why: "Arrive termina en -e, solo se suma -d → arrived." },
+  { part: 2, cat: "pasado", sentence: "I ___ (buy) a new pair of trainers last weekend.", options: ["bought", "buyed", "buy"], answer: "bought",
+    why: "Buy es irregular: buy → bought." },
+  { part: 2, cat: "pasado", sentence: "My brother ___ (drink) three glasses of water after the match.", options: ["drank", "drinked", "drunk"], answer: "drank",
+    why: "Drink es irregular: drink → drank." },
+  { part: 2, cat: "pasado", sentence: "We ___ (see) our friends at the mall.", options: ["saw", "seed", "seen"], answer: "saw",
+    why: "See es irregular: see → saw." },
+  { part: 2, cat: "pasado", sentence: "He ___ (study) all night for the test.", options: ["studied", "studyed", "study"], answer: "studied",
+    why: "Consonante + y: la y cambia a -ied → studied." },
+  { part: 2, cat: "pasado", sentence: "Last summer I ___ (sleep) in a tent.", options: ["slept", "sleeped", "sleep"], answer: "slept",
+    why: "Sleep es irregular: sleep → slept." },
 
   // ---------- PARTE 3: pasar a negativo ----------
   { part: 3, cat: "pasado", core: true, orig: "Perry liked fish fingers as a child.", sentence: "Perry ___ fish fingers as a child.",
@@ -747,6 +923,30 @@ const recBank = [
   { part: 3, cat: "pasado", orig: "I did my homework last night.", sentence: "I ___ my homework last night.",
     options: ["didn't do", "didn't did", "don't do"], answer: "didn't do",
     why: "didn't + do: didn't do (no didn't did). El did ya está en didn't." },
+  { part: 3, cat: "pasado", orig: "My sister danced at the party.", sentence: "My sister ___ at the party.",
+    options: ["didn't dance", "didn't danced", "doesn't dance"], answer: "didn't dance",
+    why: "didn't + forma base: didn't dance (sin -d ni -ed)." },
+  { part: 3, cat: "pasado", orig: "We ate pizza for lunch.", sentence: "We ___ pizza for lunch.",
+    options: ["didn't eat", "didn't ate", "don't eat"], answer: "didn't eat",
+    why: "didn't + forma base: didn't eat (no ate)." },
+  { part: 3, cat: "pasado", orig: "He wrote a long email to his teacher.", sentence: "He ___ a long email to his teacher.",
+    options: ["didn't write", "didn't wrote", "didn't writed"], answer: "didn't write",
+    why: "didn't + forma base: didn't write (no wrote)." },
+  { part: 3, cat: "pasado", orig: "They saw a film on Friday.", sentence: "They ___ a film on Friday.",
+    options: ["didn't see", "didn't saw", "didn't seen"], answer: "didn't see",
+    why: "didn't + forma base: didn't see (no saw)." },
+  { part: 3, cat: "pasado", orig: "Maria drank a lot of juice.", sentence: "Maria ___ a lot of juice.",
+    options: ["didn't drink", "didn't drank", "didn't drunk"], answer: "didn't drink",
+    why: "didn't + forma base: didn't drink (no drank)." },
+  { part: 3, cat: "pasado", orig: "I studied English yesterday.", sentence: "I ___ English yesterday.",
+    options: ["didn't study", "didn't studied", "didn't studyed"], answer: "didn't study",
+    why: "didn't + forma base: didn't study (sin -ied)." },
+  { part: 3, cat: "pasado", orig: "She came to school by bus.", sentence: "She ___ to school by bus.",
+    options: ["didn't come", "didn't came", "didn't comed"], answer: "didn't come",
+    why: "didn't + forma base: didn't come (no came)." },
+  { part: 3, cat: "pasado", orig: "The boys stopped at the corner.", sentence: "The boys ___ at the corner.",
+    options: ["didn't stop", "didn't stopped", "didn't stoped"], answer: "didn't stop",
+    why: "didn't + forma base: didn't stop (sin -ped)." },
 
   // ---------- PARTE 4: ordenar la pregunta ----------
   ord("Why did you move house last year ?",
@@ -773,6 +973,18 @@ const recBank = [
       "Pregunta de sí/no en pasado: Did + sujeto + verbo en forma base + resto."),
   ord("Why did he put on his raincoat ?",
       "Palabra de pregunta + did + sujeto + verbo en forma base (put on): Why did he put on his raincoat?"),
+  ord("What did you wear to school yesterday ?",
+      "What + did + sujeto + verbo en forma base (wear, no wore): What did you wear to school yesterday?"),
+  ord("Where did she go last summer ?",
+      "Where + did + sujeto + verbo en forma base (go, no went): Where did she go last summer?"),
+  ord("Did you sleep well last night ?",
+      "Pregunta de sí/no en pasado: Did + sujeto + verbo en forma base (sleep, no slept)."),
+  ord("When did he buy his new jacket ?",
+      "When + did + sujeto + verbo en forma base (buy, no bought): When did he buy his new jacket?"),
+  ord("Who did they meet at the mall ?",
+      "Who + did + sujeto + verbo en forma base: Who did they meet at the mall?"),
+  ord("What did your brother eat for lunch ?",
+      "What + did + sujeto + verbo en forma base (eat, no ate): What did your brother eat for lunch?"),
 ];
 
 const catLabels = { simple: "Presente simple", continuo: "Presente continuo", ropa: "Ropa y vestimenta", pasado: "Pasado simple" };
@@ -799,6 +1011,13 @@ function shuffle(arr) {
 
 function selectLevel(level) {
   currentLevel = level;
+  if (level === "rec") currentPart = 0;
+  startGame();
+}
+
+function startExam(p) {
+  currentLevel = "rec";
+  currentPart = p || 0;
   startGame();
 }
 
@@ -807,7 +1026,11 @@ function startGame() {
   let list;
   if (currentLevel === "rec") {
     list = [];
-    [1, 2, 3, 4].forEach(p => { list = list.concat(pickPart(p, recPick[p])); });
+    if (currentPart) {
+      list = pickPart(currentPart, practiceN[currentPart]);
+    } else {
+      [1, 2, 3, 4].forEach(p => { list = list.concat(pickPart(p, recPick[p])); });
+    }
   } else {
     list = shuffle(levelBanks[currentLevel]);
   }
@@ -822,9 +1045,11 @@ function startGame() {
   quiz.forEach(q => { if (q.part) partTotal[q.part]++; });
   currentIndex = 0;
   score = 0;
+  results = [];
 
   document.getElementById("levelScreen").style.display = "none";
   document.getElementById("finalScreen").style.display = "none";
+  document.getElementById("guideScreen").style.display = "none";
   document.getElementById("gameScreen").style.display = "block";
   document.getElementById("qTotal").textContent = numQuestions;
   renderQuestion();
@@ -843,7 +1068,7 @@ function renderQuestion() {
   badge.textContent = catLabels[q.cat];
   badge.className = "badge " + q.cat;
 
-  document.getElementById("levelBadge").textContent = levelLabels[currentLevel];
+  document.getElementById("levelBadge").textContent = modeLabel();
 
   const taskEl = document.getElementById("taskLine");
   if (q.part) {
@@ -866,21 +1091,40 @@ function renderQuestion() {
   const optionsDiv = document.getElementById("options");
   optionsDiv.innerHTML = "";
   const orderWrap = document.getElementById("orderWrap");
+  const writeWrap = document.getElementById("writeWrap");
+  const useWrite = isExam() && answerMode === "write" && q.type !== "order";
   if (q.type === "order") {
     optionsDiv.style.display = "none";
+    writeWrap.style.display = "none";
     orderWrap.style.display = "block";
     buildOrderUI(q);
+  } else if (useWrite) {
+    optionsDiv.style.display = "none";
+    orderWrap.style.display = "none";
+    writeWrap.style.display = "block";
+    const inp = document.getElementById("writeInput");
+    inp.value = "";
+    inp.readOnly = false;
+    inp.className = "";
+    document.getElementById("writeCheckBtn").disabled = false;
+    document.getElementById("writeTip").textContent = q.part === 3
+      ? ((q.sentence.match(/___/g) || []).length > 1
+          ? "Hay 2 espacios: escribí las dos respuestas separadas por /  (o la oración completa)."
+          : "Escribí lo que falta en el espacio (o la oración completa).")
+      : "Escribí el verbo en pasado simple.";
+    try { inp.focus({ preventScroll: true }); } catch (e) {}
   } else {
     optionsDiv.style.display = "grid";
     orderWrap.style.display = "none";
+    writeWrap.style.display = "none";
+    (q.shuffledOptions || []).forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "opt-btn";
+      btn.textContent = opt;
+      btn.onclick = () => selectAnswer(opt, btn);
+      optionsDiv.appendChild(btn);
+    });
   }
-  (q.shuffledOptions || []).forEach(opt => {
-    const btn = document.createElement("button");
-    btn.className = "opt-btn";
-    btn.textContent = opt;
-    btn.onclick = () => selectAnswer(opt, btn);
-    optionsDiv.appendChild(btn);
-  });
 
   document.getElementById("feedback").textContent = "";
   document.getElementById("feedback").className = "feedback";
@@ -931,6 +1175,7 @@ function handleTimeout() {
     if (b.textContent === q.answer) b.classList.add("correct");
   });
 
+  recordResult(q, "", false, true);
   feedback.textContent = "¡Se acabó el tiempo! ⏰ La respuesta era: " + q.answer;
   feedback.className = "feedback bad";
   if (q.why) {
@@ -956,6 +1201,7 @@ function selectAnswer(chosen, btnEl) {
     if (b.textContent === q.answer) b.classList.add("correct");
   });
 
+  recordResult(q, chosen, chosen === q.answer);
   if (chosen === q.answer) {
     score++;
     if (q.part) partScore[q.part]++;
@@ -1000,7 +1246,8 @@ function showFinal() {
 
   document.getElementById("trophyEmoji").textContent = trophy;
   document.getElementById("finalTitle").textContent = title;
-  document.getElementById("finalScore").textContent = "Puntaje: " + score + "/" + numQuestions + "  (" + levelLabels[currentLevel] + ")";
+  document.getElementById("finalScore").textContent = "Puntaje: " + score + "/" + numQuestions + "  (" + modeLabel() + ")";
+  document.getElementById("clothesBox").style.display = isExam() ? "none" : "block";
 
   renderGlossary();
   renderBreakdown();
@@ -1113,6 +1360,7 @@ function checkOrder() {
   const built = orderState.placed.map(i => orderState.words[i]).join(" ");
   const norm = s => s.toLowerCase().replace(/\s+/g, " ").trim();
   const ok = norm(built) === norm(q.answer);
+  recordResult(q, prettySentence(built), ok);
   const feedback = document.getElementById("feedback");
   const ansBox = document.getElementById("orderAnswer");
 
@@ -1152,6 +1400,7 @@ function renderBreakdown() {
   [1, 2, 3, 4].forEach(p => {
     const tot = partTotal[p];
     const sc = partScore[p];
+    if (!tot) return;
     const pct = tot ? sc / tot : 0;
     if (tot && pct < worstPct) { worstPct = pct; worst = p; }
     html += "<div class='bd-row'><span class='bd-name'>" + partNames[p] + "</span>" +
@@ -1183,14 +1432,329 @@ function renderVerbs() {
   verbsRegular.forEach(v => reg.appendChild(verbItem(v)));
 }
 
+/* ================= MODO DE RESPUESTA, ESCRIBIR Y RESULTADOS ================= */
+let currentPart = 0;
+let answerMode = "choose";
+let results = [];
+const practiceN = { 1: 14, 2: 12, 3: 12, 4: 10 };
+
+function isExam() { return currentLevel === "rec"; }
+
+function modeLabel() {
+  if (!isExam()) return levelLabels[currentLevel];
+  return (currentPart ? "Parte " + currentPart : "Simulacro") + (answerMode === "write" ? " · escribiendo" : "");
+}
+
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function setAnswerMode(m) {
+  answerMode = m;
+  document.getElementById("modeChoose").classList.toggle("active", m === "choose");
+  document.getElementById("modeWrite").classList.toggle("active", m === "write");
+  document.getElementById("modeNote").textContent = m === "choose"
+    ? "Elegís entre opciones. Ideal para empezar."
+    : "Escribís vos la respuesta, como en la prueba. (La Parte 4 siempre se arma ordenando palabras.)";
+}
+
+function goMenu() {
+  clearInterval(timerInterval);
+  ["gameScreen", "finalScreen", "guideScreen"].forEach(id => { document.getElementById(id).style.display = "none"; });
+  document.body.removeAttribute("data-print");
+  document.getElementById("levelScreen").style.display = "block";
+  window.scrollTo(0, 0);
+}
+
+function recordResult(q, chosen, ok, timeout) {
+  results.push({
+    part: q.part || 0,
+    task: q.part ? partTasks[q.part] + (q.orig ? " «" + q.orig + "»" : "") : (catLabels[q.cat] || ""),
+    sentence: q.type === "order" ? "" : q.sentence,
+    chosen: timeout ? "(sin responder)" : chosen,
+    answer: q.type === "order" ? prettySentence(q.answer) : q.answer,
+    ok: !!ok,
+    why: q.why || ""
+  });
+}
+
+function fullSentence(q) {
+  const parts = q.answer.split(" / ");
+  let i = 0;
+  return q.sentence.replace(/\s*\([^)]*\)/g, "").replace(/___/g, () => parts[i++] || "");
+}
+
+function normS(s) {
+  return s.toLowerCase().replace(/[’‘`´]/g, "'").replace(/[^a-z0-9' ]/g, " ").replace(/\s+/g, " ").trim();
+}
+function noApos(s) { return s.replace(/'/g, ""); }
+
+function acceptedAnswers(q) {
+  const parts = q.answer.split(" / ");
+  return [q.answer, parts.join(" "), fullSentence(q)].map(normS);
+}
+
+function checkWrite() {
+  if (answered) return;
+  const inp = document.getElementById("writeInput");
+  const typed = inp.value.trim();
+  if (!typed) return;
+  answered = true;
+  clearInterval(timerInterval);
+  const q = quiz[currentIndex];
+  const acc = acceptedAnswers(q);
+  const t = normS(typed);
+  const strict = acc.includes(t);
+  const loose = acc.some(a => noApos(a) === noApos(t));
+  const ok = strict || loose;
+  const feedback = document.getElementById("feedback");
+
+  recordResult(q, typed, ok);
+  inp.readOnly = true;
+  document.getElementById("writeCheckBtn").disabled = true;
+  if (ok) {
+    score++;
+    if (q.part) partScore[q.part]++;
+    inp.classList.add("correct");
+    feedback.textContent = strict ? "¡Correcto! 🎉" : "¡Correcto! 🎉 (ojo: didn't lleva apóstrofe)";
+    feedback.className = "feedback ok";
+  } else {
+    inp.classList.add("incorrect");
+    feedback.textContent = "Casi... la respuesta era: " + q.answer;
+    feedback.className = "feedback bad";
+    if (q.why) {
+      document.getElementById("explanationText").textContent = q.why;
+      document.getElementById("explanationBox").style.display = "block";
+    }
+  }
+  document.getElementById("scoreVal").textContent = score;
+  document.getElementById("progressBar").style.width = ((currentIndex + 1) / quiz.length * 100) + "%";
+  document.getElementById("nextBtn").disabled = false;
+}
+
+/* ================= CORRECCION EN PDF ================= */
+function reportHTML() {
+  const total = results.length;
+  const okN = results.filter(r => r.ok).length;
+  const pct = total ? Math.round(okN / total * 100) : 0;
+  const fecha = new Date().toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" });
+  let h = '<div class="rp-head"><h1>Corrección · ' + esc(modeLabel()) + '</h1>' +
+    '<div class="rp-meta">Alumna: Lola · ' + fecha + '</div>' +
+    '<div class="rp-score">' + okN + ' / ' + total + ' correctas (' + pct + '%)</div></div>';
+  if (isExam()) {
+    h += '<table class="g-table"><tr><th>Parte</th><th>Resultado</th></tr>';
+    [1, 2, 3, 4].forEach(p => {
+      if (!partTotal[p]) return;
+      h += '<tr><td>' + p + ' · ' + partNames[p] + '</td><td><b>' + partScore[p] + ' / ' + partTotal[p] + '</b></td></tr>';
+    });
+    h += '</table>';
+  }
+  const wrong = results.filter(r => !r.ok);
+  h += '<h2>Detalle de cada pregunta</h2>';
+  results.forEach((r, i) => {
+    h += '<div class="rp-item ' + (r.ok ? "ok" : "bad") + '">' +
+      '<div class="rp-top">#' + (i + 1) + ' · ' + (r.ok ? "✔ Bien" : "✘ A repasar") + ' · ' + esc(r.task) + '</div>' +
+      (r.sentence ? '<div class="rp-sent">' + esc(r.sentence.replace(/___/g, "_____")) + '</div>' : '') +
+      '<div>Tu respuesta: <b class="mine ' + (r.ok ? "" : "bad") + '">' + esc(r.chosen || "—") + '</b></div>';
+    if (!r.ok) {
+      h += '<div>Respuesta correcta: <b class="right">' + esc(r.answer) + '</b></div>' +
+           '<div class="rp-why"><b>¿Por qué?</b> ' + esc(r.why) + '</div>';
+    }
+    h += '</div>';
+  });
+  if (!wrong.length) h += '<p><b>¡Todo correcto! 🎉</b></p>';
+  return h;
+}
+
+function printReport() {
+  document.getElementById("reportScreen").innerHTML = reportHTML();
+  document.body.setAttribute("data-print", "report");
+  setTimeout(() => window.print(), 60);
+}
+
+/* ================= GUIA DE ESTUDIO ================= */
+const verbsIrregularExtra = [
+  { base: "wake", past: "woke" }, { base: "know", past: "knew" }, { base: "run", past: "ran" },
+  { base: "read", past: "read (se pronuncia red)" }, { base: "think", past: "thought" }, { base: "find", past: "found" },
+  { base: "leave", past: "left" }, { base: "tell", past: "told" }, { base: "bring", past: "brought" },
+  { base: "sit", past: "sat" }, { base: "win", past: "won" }, { base: "begin", past: "began" },
+  { base: "swim", past: "swam" }, { base: "speak", past: "spoke" }, { base: "feel", past: "felt" },
+  { base: "lose", past: "lost" },
+];
+
+function examRows() {
+  const core = recBank.filter(q => q.core);
+  let rows = "";
+  [1, 2, 3, 4].forEach(p => {
+    rows += '<tr><th colspan="2" class="g-part">Parte ' + p + ' · ' + partNames[p] + '</th></tr>';
+    core.filter(q => q.part === p).forEach(q => {
+      let ex, ans;
+      if (q.type === "order") { ex = "Ordenar las palabras"; ans = prettySentence(q.answer); }
+      else if (p === 3) { ex = q.orig; ans = fullSentence(q); }
+      else if (p === 2) { ex = q.sentence; ans = fullSentence(q); }
+      else { ex = q.sentence.replace("___", "?"); ans = fullSentence(q); }
+      rows += '<tr><td>' + esc(ex) + '</td><td><b class="g-good">' + esc(ans) + '</b><small>' + esc(q.why) + '</small></td></tr>';
+    });
+  });
+  return rows;
+}
+
+function guideHTML() {
+  const irr = verbsIrregular.concat(verbsIrregularExtra)
+    .map(v => '<div><span>' + v.base + '</span><span class="p">' + v.past + '</span></div>').join("");
+  const reg = verbsRegular.map(v => '<div><span>' + v.base + '</span><span class="p">' + v.past + '</span></div>').join("");
+  const clothes = glossary.map(g => '<div><span>' + g.en + '</span><span style="color:#777">' + g.es + '</span></div>').join("");
+  return `
+<h1>📖 Guía de estudio · Pasado simple</h1>
+<div class="g-sub">Repaso general para el recuperatorio (Grammar Check).<br>Leela completa una vez, después practicá las 4 partes en la app.</div>
+
+<h2>1. Qué hay en la prueba</h2>
+<table class="g-table">
+  <tr><th>Parte</th><th>Qué hay que hacer</th><th>Qué hay que saber</th></tr>
+  <tr><td><b>1</b></td><td>Escribir el pasado de un verbo</td><td>Reglas del -ed + verbos irregulares</td></tr>
+  <tr><td><b>2</b></td><td>Completar un texto con el verbo entre paréntesis</td><td>Lo mismo que la Parte 1, pero dentro de una oración</td></tr>
+  <tr><td><b>3</b></td><td>Pasar oraciones a negativo</td><td><b>didn't</b> + verbo en forma base</td></tr>
+  <tr><td><b>4</b></td><td>Ordenar palabras para armar una pregunta</td><td>(palabra de pregunta) + <b>did</b> + sujeto + verbo base</td></tr>
+</table>
+
+<h2>2. El pasado simple en un vistazo</h2>
+<div class="g-three">
+  <div class="g-box g-plus"><span class="t">➕ Afirmativo</span>sujeto + <span class="f">verbo en pasado</span><br>She <b>played</b> tennis.<br>He <b>went</b> home.</div>
+  <div class="g-box g-minus"><span class="t">➖ Negativo</span>sujeto + <span class="f">didn't</span> + verbo base<br>She <b>didn't play</b> tennis.<br>He <b>didn't go</b> home.</div>
+  <div class="g-box g-q"><span class="t">❓ Pregunta</span>(Wh) + <span class="f">did</span> + sujeto + verbo base<br><b>Did</b> she play tennis?<br>Where <b>did</b> he go?</div>
+</div>
+<div class="g-box g-gold"><span class="t">⭐ Regla de oro</span>
+En el pasado simple <b>no cambia con el sujeto</b>: I / you / he / she / it / we / they usan la misma forma (nada de -s).<br>
+<b>Did</b> y <b>didn't</b> ya llevan el pasado. Por eso el verbo que viene después <b>vuelve a su forma base</b>: sin -ed y sin forma irregular.<br>
+<span class="g-bad">She didn't wore</span> → <span class="g-good">She didn't wear</span> &nbsp;·&nbsp; <span class="g-bad">Did he went?</span> → <span class="g-good">Did he go?</span></div>
+
+<h2>3. Verbos regulares: las 4 reglas del -ed (Partes 1 y 2)</h2>
+<table class="g-table">
+  <tr><th>Regla</th><th>Ejemplos</th></tr>
+  <tr><td><b>General:</b> sumá <b>-ed</b></td><td>watch → <b>watched</b> · shout → <b>shouted</b> · play → <b>played</b></td></tr>
+  <tr><td>Termina en <b>-e</b>: sumá solo <b>-d</b></td><td>like → <b>liked</b> · move → <b>moved</b> · score → <b>scored</b> · dance → <b>danced</b> · arrive → <b>arrived</b></td></tr>
+  <tr><td><b>Consonante + y:</b> la y pasa a <b>-ied</b></td><td>try → <b>tried</b> · carry → <b>carried</b> · study → <b>studied</b><br><small>Ojo: vocal + y no cambia → play → played</small></td></tr>
+  <tr><td>Verbo corto <b>consonante + vocal + consonante:</b> se duplica la última letra</td><td>stop → <b>stopped</b></td></tr>
+</table>
+<div class="g-verbs">${reg}</div>
+
+<h2>4. Verbos irregulares (hay que aprenderlos de memoria)</h2>
+<p>No siguen ninguna regla. Truco: copiá 5 por día, tapá la columna de la derecha y probá acordarte. Algunos <b>no cambian</b>: put → put, read → read.</p>
+<div class="g-verbs">${irr}</div>
+<p><b>Cuidado:</b> en las opciones suele aparecer el participio como trampa (drink → drank, <span class="g-bad">drunk</span>; eat → ate, <span class="g-bad">eaten</span>; do → did, <span class="g-bad">done</span>; go → went, <span class="g-bad">gone</span>). En el pasado simple se usa la <b>segunda columna</b>, no esa.</p>
+
+<h2>5. Parte 3: pasar a negativo (paso a paso)</h2>
+<div class="g-box g-minus"><span class="t">Receta</span>
+1. Encontrá el verbo en pasado.<br>
+2. Escribí <b>didn't</b> justo antes.<br>
+3. Devolvé el verbo a su <b>forma base</b> (sin -ed, sin forma irregular).<br>
+<br>
+Perry <b>liked</b> fish fingers. → Perry <span class="f">didn't like</span> fish fingers.<br>
+Diego <b>slept</b> well. → Diego <span class="f">didn't sleep</span> well.<br>
+Javier <b>understood</b> the teacher. → Javier <span class="f">didn't understand</span> the teacher.</div>
+<div class="g-box g-gold"><span class="t">⚠️ Si hay dos verbos, hay dos didn't</span>
+Patrik <b>wore</b> trainers and <b>danced</b>. → Patrik <span class="f">didn't wear</span> trainers and <span class="f">didn't dance</span>.<br>
+Jim <b>ate</b> dinner and <b>went</b> to bed. → Jim <span class="f">didn't eat</span> dinner and <span class="f">didn't go</span> to bed.</div>
+<p><b>Aparte (puede aparecer):</b> con <b>was / were</b> (pasado de am / is / are) no se usa did: She <b>was</b> tired → She <b>wasn't</b> tired.</p>
+
+<h2>6. Parte 4: ordenar la pregunta</h2>
+<div class="g-box g-q"><span class="t">Fórmula</span>
+<span class="f">palabra de pregunta</span> + <span class="f">did</span> + <span class="f">sujeto</span> + <span class="f">verbo base</span> + resto + <b>?</b><br>
+Preguntas de sí/no: empiezan directo con <b>Did</b> → <b>Did</b> they eat a big breakfast?</div>
+<table class="g-table">
+  <tr><th>Palabra</th><th>Significa</th><th>Ejemplo</th></tr>
+  <tr><td>What</td><td>qué</td><td>What <b>did</b> you drink at the party?</td></tr>
+  <tr><td>Where</td><td>dónde</td><td>Where <b>did</b> you buy your boots?</td></tr>
+  <tr><td>When</td><td>cuándo</td><td>When <b>did</b> they arrive?</td></tr>
+  <tr><td>Why</td><td>por qué</td><td>Why <b>did</b> you move house last year?</td></tr>
+  <tr><td>Who</td><td>quién / a quién</td><td>Who <b>did</b> you meet last weekend?</td></tr>
+  <tr><td>How long</td><td>cuánto tiempo</td><td>How long <b>did</b> it take to learn English?</td></tr>
+  <tr><td>What time</td><td>a qué hora</td><td>What time <b>did</b> you wake up?</td></tr>
+</table>
+<p><b>Cómo ordenar sin trabarte:</b> 1) buscá la palabra de pregunta (o Did) y ponela primera; 2) poné <b>did</b> después; 3) el sujeto (you, he, they…); 4) el verbo; 5) el resto; 6) el <b>?</b> al final. Respuestas cortas: <b>Yes, I did.</b> / <b>No, I didn't.</b></p>
+
+<h2>7. Palabras que avisan "pasado"</h2>
+<p><b>yesterday</b> (ayer) · <b>last night / week / weekend / summer / year</b> · <b>two days ago</b> (hace dos días) · <b>this morning</b> (cuando ya pasó) · <b>in 2020</b> · <b>as a child</b> (de chico/a) · <b>when I was young</b></p>
+
+<h2>8. Tu prueba corregida</h2>
+<p>Los ejercicios de la prueba con la respuesta correcta y el porqué. Son los que más conviene repasar.</p>
+<table class="g-table">${examRows()}</table>
+
+<h2>9. Los errores más comunes</h2>
+<table class="g-table">
+  <tr><th>❌ Mal</th><th>✅ Bien</th></tr>
+  <tr><td><span class="g-bad">didn't liked</span> · <span class="g-bad">didn't watched</span></td><td><span class="g-good">didn't like</span> · <span class="g-good">didn't watch</span></td></tr>
+  <tr><td><span class="g-bad">stoped</span> · <span class="g-bad">carryed</span> · <span class="g-bad">studyed</span></td><td><span class="g-good">stopped</span> · <span class="g-good">carried</span> · <span class="g-good">studied</span></td></tr>
+  <tr><td><span class="g-bad">goed</span> · <span class="g-bad">eated</span> · <span class="g-bad">putted</span></td><td><span class="g-good">went</span> · <span class="g-good">ate</span> · <span class="g-good">put</span></td></tr>
+  <tr><td><span class="g-bad">Did she wore a dress?</span></td><td><span class="g-good">Did she wear a dress?</span></td></tr>
+  <tr><td><span class="g-bad">Where you did go?</span></td><td><span class="g-good">Where did you go?</span></td></tr>
+  <tr><td><span class="g-bad">She didn't went</span></td><td><span class="g-good">She didn't go</span></td></tr>
+</table>
+
+<h2>10. Vocabulario de ropa</h2>
+<div class="g-verbs">${clothes}</div>
+
+<h2>11. Plan de estudio sugerido</h2>
+<ul class="g-check">
+  <li>☐ <b>Día 1:</b> leer esta guía + copiar los irregulares (10 verbos).</li>
+  <li>☐ <b>Día 2:</b> Partes 1 y 2 en la app (modo escribir).</li>
+  <li>☐ <b>Día 3:</b> Partes 3 y 4 en la app (modo escribir).</li>
+  <li>☐ <b>Día 4:</b> Simulacro completo. Descargar la corrección y repasar los errores.</li>
+  <li>☐ <b>Víspera de la prueba:</b> otro simulacro + leer los irregulares en voz alta. Meta: <b>80 % o más</b> dos veces seguidas.</li>
+</ul>
+
+<h2>12. Antes de entregar la prueba</h2>
+<ul class="g-check">
+  <li>☐ ¿Después de <b>didn't</b> y <b>did</b> puse el verbo en forma base?</li>
+  <li>☐ ¿Si había dos verbos, puse dos <b>didn't</b>?</li>
+  <li>☐ ¿Revisé la ortografía del <b>-ed</b> (stopped, carried, liked)?</li>
+  <li>☐ ¿Las preguntas empiezan con mayúscula y terminan con <b>?</b></li>
+  <li>☐ ¿Usé el pasado irregular correcto (went, ate, took, said…) y no el participio?</li>
+</ul>
+
+<h2>Autoevaluación: ¿puedo…?</h2>
+<ul class="g-check">
+  <li>☐ …escribir el pasado de los 20 verbos irregulares de la lista sin mirar.</li>
+  <li>☐ …explicar las 4 reglas del -ed con un ejemplo cada una.</li>
+  <li>☐ …pasar cualquier oración a negativo con <b>didn't</b>.</li>
+  <li>☐ …armar una pregunta con What / Where / When / Why / Who / How long.</li>
+</ul>
+`;
+}
+
+function showGuide() {
+  ["levelScreen", "gameScreen", "finalScreen"].forEach(id => { document.getElementById(id).style.display = "none"; });
+  clearInterval(timerInterval);
+  const c = document.getElementById("guideContent");
+  c.innerHTML = guideHTML();
+  document.getElementById("guideScreen").style.display = "block";
+  document.body.setAttribute("data-print", "guide");
+  window.scrollTo(0, 0);
+}
+
+function closeGuide() {
+  goMenu();
+}
+
 document.getElementById("checkBtn").addEventListener("click", checkOrder);
 document.getElementById("clearBtn").addEventListener("click", clearOrder);
 document.getElementById("nextBtn").addEventListener("click", nextQuestion);
 document.getElementById("restartBtn").addEventListener("click", startGame);
-document.getElementById("changeLevelBtn").addEventListener("click", () => {
-  document.getElementById("finalScreen").style.display = "none";
-  document.getElementById("levelScreen").style.display = "block";
+document.getElementById("changeLevelBtn").addEventListener("click", goMenu);
+document.getElementById("exitBtn").addEventListener("click", goMenu);
+document.getElementById("writeCheckBtn").addEventListener("click", checkWrite);
+document.getElementById("writeInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") { e.preventDefault(); if (!answered) checkWrite(); else nextQuestion(); }
 });
+document.getElementById("reportBtn").addEventListener("click", printReport);
+document.getElementById("guideBtn").addEventListener("click", showGuide);
+document.getElementById("guideBack").addEventListener("click", closeGuide);
+document.getElementById("guidePrint").addEventListener("click", () => window.print());
+window.addEventListener("afterprint", () => {
+  if (document.body.getAttribute("data-print") === "report") document.body.removeAttribute("data-print");
+});
+setAnswerMode("choose");
+if (location.hash === "#guia") showGuide();
 </script>
 </body>
 </html>
